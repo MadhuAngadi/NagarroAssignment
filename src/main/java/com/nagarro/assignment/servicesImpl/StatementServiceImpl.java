@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -69,7 +70,12 @@ public class StatementServiceImpl implements StatementService {
             statementRes.setId(statement.getId());
             statementRes.setAmount(statement.getAmount());
             statementRes.setDateField(statement.getDateField());
-            statementRes.setAccountId(accountNumberHash.hashAccountNumber(String.valueOf(statement.getAccountId())));
+            try {
+                statementRes.setAccountId(accountNumberHash.hashAccountNumber(String.valueOf(statement.getAccountId())));
+            } catch (NoSuchAlgorithmException e) {
+                logger.error("NoSuchAlgorithmException to hash AccountNumber :"+ e);
+                statementRes.setAccountId("");
+            }
             statementResList.add(statementRes);
         });
         return statementResList;

@@ -68,6 +68,6 @@ public class Validator {
     }
 
     private boolean validateFromAmountLesserThanToAmount(double fromAmount, double toAmount) {
-        return !(fromAmount > toAmount);
+        return (fromAmount < toAmount);
     }
 }
